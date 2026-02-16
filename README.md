@@ -1,11 +1,15 @@
 # Shippo PHP SDK
 
+![Shippo PHP SDK](https://github.com/user-attachments/assets/2a878c70-a364-42ee-a67e-dc20d8a2f7c2)
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tigusigalpa/shippo-php.svg?style=flat-square)](https://packagist.org/packages/tigusigalpa/shippo-php)
 [![Tests](https://img.shields.io/github/actions/workflow/status/tigusigalpa/shippo-php/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/tigusigalpa/shippo-php/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/tigusigalpa/shippo-php.svg?style=flat-square)](https://packagist.org/packages/tigusigalpa/shippo-php)
 [![License](https://img.shields.io/packagist/l/tigusigalpa/shippo-php.svg?style=flat-square)](https://packagist.org/packages/tigusigalpa/shippo-php)
 
-A modern, PSR-compliant PHP SDK for the [Shippo API](https://goshippo.com/) with seamless Laravel integration. This library provides a developer-friendly interface for managing shipping labels, tracking, rates, and all Shippo API functionality.
+A modern, PSR-compliant PHP SDK for the [Shippo API](https://goshippo.com/) with seamless Laravel integration. This
+library provides a developer-friendly interface for managing shipping labels, tracking, rates, and all Shippo API
+functionality.
 
 ## Features
 
