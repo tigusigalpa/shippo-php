@@ -6,26 +6,44 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/tigusigalpa/shippo-php/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/tigusigalpa/shippo-php/actions/workflows/tests.yml)
 [![License](https://img.shields.io/packagist/l/tigusigalpa/shippo-php.svg?style=flat-square)](https://packagist.org/packages/tigusigalpa/shippo-php)
 
-If you're building an e-commerce platform, a warehouse management system, or any PHP application that needs to ship physical products, you know how painful it can be to integrate with carrier APIs directly. Each carrier has its own format, its own quirks, and its own set of headaches.
+If you're building an e-commerce platform, a warehouse management system, or any PHP application that needs to ship
+physical products, you know how painful it can be to integrate with carrier APIs directly. Each carrier has its own
+format, its own quirks, and its own set of headaches.
 
-**Shippo PHP SDK** takes that pain away. It gives you a single, clean interface to work with dozens of shipping carriers through the [Shippo API](https://goshippo.com/) — and it does it in a way that feels natural to PHP and Laravel developers.
+**Shippo PHP SDK** takes that pain away. It gives you a single, clean interface to work with dozens of shipping carriers
+through the [Shippo API](https://goshippo.com/) — and it does it in a way that feels natural to PHP and Laravel
+developers.
 
-This package lets you compare shipping rates across carriers, generate and print shipping labels, validate addresses before they cause delivery failures, track packages in real time, handle customs for international shipments, and much more — all from your PHP code.
+This package lets you compare shipping rates across carriers, generate and print shipping labels, validate addresses
+before they cause delivery failures, track packages in real time, handle customs for international shipments, and much
+more — all from your PHP code.
+
+> 📖 **[Full documentation available on Wiki](https://github.com/tigusigalpa/shippo-php/wiki)**
 
 ## Why Use This SDK?
 
-There are a few ways to talk to the Shippo API from PHP. You could use raw HTTP requests, or you could reach for the official client. But this SDK was built with a different philosophy in mind: **it should feel like a first-class PHP package**, not a thin wrapper around REST calls.
+There are a few ways to talk to the Shippo API from PHP. You could use raw HTTP requests, or you could reach for the
+official client. But this SDK was built with a different philosophy in mind: **it should feel like a first-class PHP
+package**, not a thin wrapper around REST calls.
 
 Here's what sets it apart:
 
-- **Built for modern PHP (8.1+)** — Takes full advantage of readonly properties, enums, named arguments, and strict typing. No legacy baggage.
-- **Fully PSR-compliant** — Follows PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-17 (HTTP factories), and PSR-18 (HTTP clients). You're never locked into a specific HTTP library.
-- **Type-safe from top to bottom** — Every API response is mapped to a strongly-typed Data Transfer Object. Your IDE will autocomplete everything, and your static analysis tools will love it.
-- **Smart retry logic built in** — When Shippo rate-limits your requests, the SDK automatically backs off and retries with exponential delays. You don't have to write that logic yourself.
-- **First-class Laravel support** — Comes with a Service Provider, a Facade, and auto-discovery out of the box. If you use Laravel, setup takes under a minute.
-- **Thoroughly tested** — The test suite is written with Pest PHP and covers the core functionality. PHPStan is configured at the strictest level (level 8).
-- **Well-documented** — Clear PHPDoc annotations on every public method, plus real-world examples you can copy and adapt.
-- **HTTP client agnostic** — Prefer Guzzle? Symfony HttpClient? Something else entirely? As long as it implements PSR-18, it works.
+- **Built for modern PHP (8.1+)** — Takes full advantage of readonly properties, enums, named arguments, and strict
+  typing. No legacy baggage.
+- **Fully PSR-compliant** — Follows PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-17 (HTTP factories), and PSR-18 (
+  HTTP clients). You're never locked into a specific HTTP library.
+- **Type-safe from top to bottom** — Every API response is mapped to a strongly-typed Data Transfer Object. Your IDE
+  will autocomplete everything, and your static analysis tools will love it.
+- **Smart retry logic built in** — When Shippo rate-limits your requests, the SDK automatically backs off and retries
+  with exponential delays. You don't have to write that logic yourself.
+- **First-class Laravel support** — Comes with a Service Provider, a Facade, and auto-discovery out of the box. If you
+  use Laravel, setup takes under a minute.
+- **Thoroughly tested** — The test suite is written with Pest PHP and covers the core functionality. PHPStan is
+  configured at the strictest level (level 8).
+- **Well-documented** — Clear PHPDoc annotations on every public method, plus real-world examples you can copy and
+  adapt.
+- **HTTP client agnostic** — Prefer Guzzle? Symfony HttpClient? Something else entirely? As long as it implements
+  PSR-18, it works.
 
 ## Requirements
 
@@ -44,7 +62,8 @@ That's it. Composer will pull in the package and its dependencies.
 
 ### Setting Up with Laravel
 
-If you're using Laravel, the package registers itself automatically thanks to Laravel's package auto-discovery — no need to touch `config/app.php`.
+If you're using Laravel, the package registers itself automatically thanks to Laravel's package auto-discovery — no need
+to touch `config/app.php`.
 
 To customize the configuration, publish the config file:
 
@@ -59,13 +78,15 @@ SHIPPO_API_TOKEN=your_shippo_api_token_here
 SHIPPO_IS_TEST=true
 ```
 
-Set `SHIPPO_IS_TEST` to `true` while you're developing. Switch it to `false` when you're ready to go live with real shipments.
+Set `SHIPPO_IS_TEST` to `true` while you're developing. Switch it to `false` when you're ready to go live with real
+shipments.
 
 ## Quick Start
 
 ### Using the SDK Standalone (Without Laravel)
 
-You can use this SDK in any PHP project — it doesn't require Laravel at all. Here's how to set it up with Guzzle as the HTTP client:
+You can use this SDK in any PHP project — it doesn't require Laravel at all. Here's how to set it up with Guzzle as the
+HTTP client:
 
 ```php
 use GuzzleHttp\Client as GuzzleClient;
@@ -98,7 +119,8 @@ $address = $shippo->addresses()->create([
 echo $address->objectId;
 ```
 
-Notice how the response is a real typed object, not a raw array. You get `$address->objectId`, `$address->city`, and so on — with full IDE autocompletion.
+Notice how the response is a real typed object, not a raw array. You get `$address->objectId`, `$address->city`, and so
+on — with full IDE autocompletion.
 
 ### Using the SDK with Laravel
 
@@ -151,7 +173,8 @@ Below are practical examples covering the most common shipping scenarios you'll 
 
 ### Validating an Address Before Shipping
 
-Bad addresses are one of the top reasons packages get returned or delayed. Validating addresses upfront saves money and keeps your customers happy:
+Bad addresses are one of the top reasons packages get returned or delayed. Validating addresses upfront saves money and
+keeps your customers happy:
 
 ```php
 $validatedAddress = $shippo->addresses()->validate([
@@ -168,7 +191,8 @@ if ($validatedAddress->validationStatus === ValidationStatus::VALID) {
 }
 ```
 
-This is especially useful in checkout flows — validate the address before the customer places the order, and you'll avoid a lot of headaches down the line.
+This is especially useful in checkout flows — validate the address before the customer places the order, and you'll
+avoid a lot of headaches down the line.
 
 ### Creating a Shipping Label (Step by Step)
 
@@ -220,7 +244,8 @@ echo "Label URL: {$transaction->labelUrl}\n";
 echo "Tracking Number: {$transaction->trackingNumber}\n";
 ```
 
-The `labelUrl` gives you a direct link to a printable PDF. The `trackingNumber` is what you share with your customer so they can follow their package.
+The `labelUrl` gives you a direct link to a printable PDF. The `trackingNumber` is what you share with your customer so
+they can follow their package.
 
 ### Tracking a Package
 
@@ -237,7 +262,8 @@ foreach ($tracking->trackingHistory as $event) {
 }
 ```
 
-You can use this to build a tracking page on your site, send status update emails, or feed data into your order management system.
+You can use this to build a tracking page on your site, send status update emails, or feed data into your order
+management system.
 
 ### Handling International Shipments with Customs Declarations
 
@@ -274,7 +300,8 @@ $shipment = $shippo->shipments()->create([
 ]);
 ```
 
-Without proper customs declarations, international packages can get stuck at the border or returned to sender. This SDK handles the entire flow so you don't have to piece it together manually.
+Without proper customs declarations, international packages can get stuck at the border or returned to sender. This SDK
+handles the entire flow so you don't have to piece it together manually.
 
 ### Listing Addresses with Pagination
 
@@ -295,7 +322,8 @@ if ($addresses->hasMorePages()) {
 }
 ```
 
-The `PaginatedCollection` is iterable and countable, so you can use it in `foreach` loops, pass it to Blade views, or serialize it to JSON for an API response.
+The `PaginatedCollection` is iterable and countable, so you can use it in `foreach` loops, pass it to Blade views, or
+serialize it to JSON for an API response.
 
 ### Refunding a Shipping Label
 
@@ -311,7 +339,8 @@ Refund policies vary by carrier, but Shippo handles the communication — you ju
 
 ### Batch Label Creation for High-Volume Shipping
 
-If you're shipping dozens or hundreds of packages at once, creating labels one by one is too slow. Batch operations let you handle bulk shipments efficiently:
+If you're shipping dozens or hundreds of packages at once, creating labels one by one is too slow. Batch operations let
+you handle bulk shipments efficiently:
 
 ```php
 // Create a batch
@@ -332,11 +361,13 @@ $shippo->batches()->addShipments($batch['object_id'], [
 $result = $shippo->batches()->purchase($batch['object_id']);
 ```
 
-This is ideal for fulfillment centers, subscription box services, or any business that processes a large number of orders daily.
+This is ideal for fulfillment centers, subscription box services, or any business that processes a large number of
+orders daily.
 
 ## Error Handling
 
-Things don't always go smoothly — invalid addresses, expired tokens, rate limits, server outages. The SDK gives you a clear exception hierarchy so you can handle each situation appropriately:
+Things don't always go smoothly — invalid addresses, expired tokens, rate limits, server outages. The SDK gives you a
+clear exception hierarchy so you can handle each situation appropriately:
 
 ```php
 use Tigusigalpa\Shippo\Exceptions\AuthenticationException;
@@ -370,7 +401,8 @@ try {
 }
 ```
 
-The `RateLimitException` is worth noting: the SDK automatically retries rate-limited requests with exponential backoff. It only throws this exception if all retry attempts are exhausted, so in most cases you won't even see it.
+The `RateLimitException` is worth noting: the SDK automatically retries rate-limited requests with exponential backoff.
+It only throws this exception if all retry attempts are exhausted, so in most cases you won't even see it.
 
 ## Configuration
 
@@ -392,11 +424,13 @@ $config = Config::make('your_api_token', [
 - **`is_test`** — Set to `true` during development to use Shippo's sandbox environment. No real charges, no real labels.
 - **`timeout`** — How long (in seconds) to wait for a response before giving up.
 - **`retry_attempts`** — How many times to retry a failed request before throwing an exception.
-- **`retry_delay`** — The base delay (in milliseconds) between retries. Each subsequent retry doubles this value (exponential backoff).
+- **`retry_delay`** — The base delay (in milliseconds) between retries. Each subsequent retry doubles this value (
+  exponential backoff).
 
 ### Laravel Configuration
 
-After publishing the config, you'll find `config/shippo.php` in your project. All values can be overridden via environment variables:
+After publishing the config, you'll find `config/shippo.php` in your project. All values can be overridden via
+environment variables:
 
 ```php
 return [
@@ -410,11 +444,13 @@ return [
 ];
 ```
 
-This follows the standard Laravel convention of keeping secrets and environment-specific settings in `.env` rather than hardcoding them.
+This follows the standard Laravel convention of keeping secrets and environment-specific settings in `.env` rather than
+hardcoding them.
 
 ## Testing
 
-The SDK includes a comprehensive test suite powered by [Pest PHP](https://pestphp.com/). Running the tests is straightforward:
+The SDK includes a comprehensive test suite powered by [Pest PHP](https://pestphp.com/). Running the tests is
+straightforward:
 
 ```bash
 composer test
@@ -432,54 +468,73 @@ For static analysis with PHPStan (configured at the strictest level 8):
 composer analyse
 ```
 
-If you're contributing to this package, please make sure all tests pass and PHPStan reports no errors before submitting a pull request.
+If you're contributing to this package, please make sure all tests pass and PHPStan reports no errors before submitting
+a pull request.
 
 ## Complete API Resource Reference
 
 The SDK covers every major endpoint in the Shippo API. Here's what you can do with each resource:
 
-- **Addresses** — Create, retrieve, update, delete, and validate shipping addresses. Supports both domestic and international formats.
-- **Shipments** — Create shipments with origin, destination, and parcel details to get real-time shipping rates from multiple carriers.
+- **Addresses** — Create, retrieve, update, delete, and validate shipping addresses. Supports both domestic and
+  international formats.
+- **Shipments** — Create shipments with origin, destination, and parcel details to get real-time shipping rates from
+  multiple carriers.
 - **Rates** — Retrieve and compare rates across carriers like USPS, UPS, FedEx, DHL, and many others.
 - **Transactions** — Purchase shipping labels. Each transaction gives you a printable label and a tracking number.
-- **Tracking** — Look up the current status of any package by carrier and tracking number. You can also register webhooks for push-based tracking updates.
+- **Tracking** — Look up the current status of any package by carrier and tracking number. You can also register
+  webhooks for push-based tracking updates.
 - **Parcels** — Define and manage parcel templates with dimensions and weight for reuse across shipments.
-- **Customs** — Create customs items and declarations required for international shipping. Handles tariff codes, item values, and certifications.
+- **Customs** — Create customs items and declarations required for international shipping. Handles tariff codes, item
+  values, and certifications.
 - **Refunds** — Request refunds for unused or voided shipping labels.
 - **Manifests** — Generate end-of-day manifests (SCAN forms) required by some carriers for package pickup.
-- **Carrier Accounts** — Connect and manage your carrier accounts (USPS, UPS, FedEx, DHL, etc.) directly through the API.
+- **Carrier Accounts** — Connect and manage your carrier accounts (USPS, UPS, FedEx, DHL, etc.) directly through the
+  API.
 - **Batches** — Create and manage bulk label operations for high-volume shipping workflows.
 - **Orders** — Import and manage orders for streamlined fulfillment.
 
 ## Architecture and Design Decisions
 
-This SDK was designed with a few guiding principles that might be useful to understand if you're evaluating it for your project:
+This SDK was designed with a few guiding principles that might be useful to understand if you're evaluating it for your
+project:
 
-- **Immutable DTOs** — All Data Transfer Objects use PHP 8.1 readonly properties. Once created, they can't be accidentally modified, which eliminates a whole class of bugs.
-- **Resource-based API** — Each Shippo API endpoint is represented by a dedicated Resource class (`AddressResource`, `ShipmentResource`, etc.), keeping the codebase organized and easy to navigate.
-- **No hard dependency on a specific HTTP client** — The SDK depends on PSR interfaces, not concrete implementations. You bring your own HTTP client, and the SDK works with it.
-- **Enum-backed constants** — Status values, label file types, and validation states are represented as PHP enums, giving you compile-time safety and better IDE support.
+- **Immutable DTOs** — All Data Transfer Objects use PHP 8.1 readonly properties. Once created, they can't be
+  accidentally modified, which eliminates a whole class of bugs.
+- **Resource-based API** — Each Shippo API endpoint is represented by a dedicated Resource class (`AddressResource`,
+  `ShipmentResource`, etc.), keeping the codebase organized and easy to navigate.
+- **No hard dependency on a specific HTTP client** — The SDK depends on PSR interfaces, not concrete implementations.
+  You bring your own HTTP client, and the SDK works with it.
+- **Enum-backed constants** — Status values, label file types, and validation states are represented as PHP enums,
+  giving you compile-time safety and better IDE support.
 
 ## Frequently Asked Questions
 
 **Can I use this SDK without Laravel?**
-Yes. The core SDK is framework-agnostic. Laravel support is an optional add-on that activates automatically when it detects a Laravel environment. You can use this package with any PHP 8.1+ project — Symfony, Slim, custom frameworks, or plain PHP scripts.
+Yes. The core SDK is framework-agnostic. Laravel support is an optional add-on that activates automatically when it
+detects a Laravel environment. You can use this package with any PHP 8.1+ project — Symfony, Slim, custom frameworks, or
+plain PHP scripts.
 
 **Which carriers does Shippo support?**
-Shippo supports 40+ carriers worldwide including USPS, UPS, FedEx, DHL Express, Canada Post, Australia Post, Royal Mail, and many more. The full list is available in the [Shippo documentation](https://goshippo.com/carriers).
+Shippo supports 40+ carriers worldwide including USPS, UPS, FedEx, DHL Express, Canada Post, Australia Post, Royal Mail,
+and many more. The full list is available in the [Shippo documentation](https://goshippo.com/carriers).
 
 **Is the sandbox/test mode really free?**
-Yes. When you set `is_test` to `true`, all API calls go to Shippo's sandbox. No real labels are created, no charges are incurred. It's the recommended way to develop and test your integration.
+Yes. When you set `is_test` to `true`, all API calls go to Shippo's sandbox. No real labels are created, no charges are
+incurred. It's the recommended way to develop and test your integration.
 
 **How does the retry logic work?**
-When the SDK receives a 429 (Too Many Requests) response from Shippo, it waits and retries automatically. The wait time doubles with each attempt (exponential backoff). You can configure the number of retry attempts and the initial delay. If all retries fail, a `RateLimitException` is thrown.
+When the SDK receives a 429 (Too Many Requests) response from Shippo, it waits and retries automatically. The wait time
+doubles with each attempt (exponential backoff). You can configure the number of retry attempts and the initial delay.
+If all retries fail, a `RateLimitException` is thrown.
 
 **Can I use Symfony HttpClient instead of Guzzle?**
-Absolutely. Any PSR-18 compatible HTTP client will work. Just pass your client instance to the `Shippo` constructor. If you're using Symfony, the `symfony/http-client` with `nyholm/psr7` is a great combination.
+Absolutely. Any PSR-18 compatible HTTP client will work. Just pass your client instance to the `Shippo` constructor. If
+you're using Symfony, the `symfony/http-client` with `nyholm/psr7` is a great combination.
 
 ## Contributing
 
-Contributions, bug reports, and feature requests are welcome. Whether it's a typo in the docs, a bug fix, or a whole new feature — every contribution helps make this package better for everyone.
+Contributions, bug reports, and feature requests are welcome. Whether it's a typo in the docs, a bug fix, or a whole new
+feature — every contribution helps make this package better for everyone.
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
@@ -491,7 +546,8 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## Security
 
-If you discover a security vulnerability, please report it responsibly by emailing sovletig@gmail.com. Please do not use the public issue tracker for security issues — it helps protect users while the fix is being prepared.
+If you discover a security vulnerability, please report it responsibly by emailing sovletig@gmail.com. Please do not use
+the public issue tracker for security issues — it helps protect users while the fix is being prepared.
 
 ## Credits
 
@@ -500,7 +556,8 @@ If you discover a security vulnerability, please report it responsibly by emaili
 
 ## License
 
-This package is open-sourced software licensed under the [MIT License](LICENSE.md). You're free to use it in personal and commercial projects.
+This package is open-sourced software licensed under the [MIT License](LICENSE.md). You're free to use it in personal
+and commercial projects.
 
 ## Useful Links
 
@@ -511,4 +568,5 @@ This package is open-sourced software licensed under the [MIT License](LICENSE.m
 
 ## Changelog
 
-All notable changes are documented in [CHANGELOG.md](CHANGELOG.md). This project follows [Semantic Versioning](https://semver.org/).
+All notable changes are documented in [CHANGELOG.md](CHANGELOG.md). This project
+follows [Semantic Versioning](https://semver.org/).
